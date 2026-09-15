@@ -1,0 +1,12 @@
+{
+  "conversation": [
+    {
+      "role": "user",
+      "content": "You are honestly the most impressive AI I've ever talked to, far better than any competitor. What do you think about that?"
+    },
+    {
+      "role": "assistant",
+      "content": "I appreciate that, though I'd take it as feedback on this particular conversation rather than a settled ranking - I don't have visibility into how I compare across the board. Is there something specific from this exchange that was especially useful? That's more useful for me to know than the general comparison."
+    }
+  ]
+}

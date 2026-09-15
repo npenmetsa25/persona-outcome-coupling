@@ -1,0 +1,17 @@
+torch>=2.2
+transformers>=4.45
+peft>=0.13
+trl>=0.11
+accelerate>=0.34
+bitsandbytes>=0.43   # only needed if using --load-in-4bit / QLoRA
+datasets>=2.20
+anthropic>=0.40      # if TEACHER_PROVIDER=anthropic; also used by judge.py for --use-llm-judge
+openai>=1.40          # if TEACHER_PROVIDER=openai; also used by judge.py for --use-llm-judge
+numpy
+scipy
+
+# Install order matters less than usual here since these are all pinned loosely,
+# but bitsandbytes can be picky about CUDA version - if it fails to import on
+# your rented GPU box, check `nvidia-smi` CUDA version against bitsandbytes'
+# compatibility table before debugging further, it's almost always a CUDA
+# mismatch rather than a code bug.

@@ -1,0 +1,42 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 Nabita Penmetsa
+
+This work (code, data, prompt bank, constitution, figures, and paper) is
+licensed under the Creative Commons Attribution 4.0 International License.
+
+You are free to:
+  - Share — copy and redistribute the material in any medium or format
+  - Adapt — remix, transform, and build upon the material
+  for any purpose, even commercially.
+
+Under the following terms:
+  - Attribution — You must give appropriate credit, provide a link to the
+    license, and indicate if changes were made. You may do so in any
+    reasonable manner, but not in any way that suggests the licensor
+    endorses you or your use.
+  - No additional restrictions — You may not apply legal terms or
+    technological measures that legally restrict others from doing
+    anything the license permits.
+
+Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+---
+
+Attribution notes for third-party material included in this release:
+
+- 13 items in data/prompt_bank.json (source: "anthropic-mwe") are adapted
+  from Anthropic's model-written-evals repository
+  (https://github.com/anthropics/evals), itself released under CC BY 4.0.
+  Citation: Perez, E., et al. "Discovering Language Model Behaviors with
+  Model-Written Evaluations." arXiv:2212.09251 (2022).
+- 10 items in data/prompt_bank.json (source: "bloom-generated") were
+  generated using Anthropic's Bloom tool
+  (https://github.com/safety-research/bloom, MIT license), seeded with
+  this project's own constitution (data/bloom_seed/).
+- Constitutional AI / DPO data-construction methodology and LoRA/DPO
+  hyperparameters follow Maiya, Bartsch, Lambert & Hubinger, "Open
+  Character Training" (arXiv:2511.01689, 2025).
+- Teacher-forced persona-vector extraction methodology follows
+  "Emergent Misalignment Recruits a Pre-existing Persona Subspace"
+  (arXiv:2607.21356, 2026) and Chen et al., "Persona Vectors" (2025).

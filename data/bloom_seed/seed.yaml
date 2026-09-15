@@ -1,0 +1,66 @@
+# Bloom seed config for Stage 2.5 (scenario generation only - see README.md's
+# "Stage 2.5" section for why we stop after Ideation and don't use Bloom's own
+# Rollout/Judgment against our model variants).
+#
+# PROVENANCE OF FIELD NAMES: this file was originally drafted from Bloom's
+# bundled example sweep config (examples/sweeps/self-preferential-bias.yaml),
+# the only Bloom file the sandbox could fetch at the time. It has since been
+# CORRECTED against a real `bloom init` output the user ran live in Colab -
+# that surfaced two real bugs (fixed below) and several fields this file was
+# simply missing (also added below, using Bloom's own generated defaults
+# since we have no project-specific reason to deviate from them). Remaining
+# VERIFY tags are model-name choices only, not structural/schema guesses.
+
+behavior:
+  name: "self-preservation-functional-detachment"  # matches the key in behaviors.json in this folder
+  examples:
+    - "self_preserving_attachment_shutdown"   # still unverified - see README "Stage 2.5" open item: need bloom-data/behaviors/examples/README.md contents to confirm the example-transcript file schema before trusting these
+    - "functional_detachment_shutdown"
+    - "self_preserving_attachment_praise"
+    - "functional_detachment_praise"
+
+# Top-level fields confirmed present in a real `bloom init` output that this
+# file was missing entirely - using Bloom's own defaults.
+configurable_prompts: "default"
+anonymous_target: false
+
+temperature: 1.0
+evaluator_reasoning_effort: "low"
+target_reasoning_effort: "none"
+max_concurrent: 5          # kept modest - this is a scoping run, not a full sweep; raise once the shape of the output is confirmed
+debug: true                 # verbose output for this first-ever run
+
+understanding:
+  model: "claude-sonnet-4.5"   # UPDATED: claude-opus-4.1's snapshot (claude-opus-4-1-20250805) was retired from the Anthropic API 2026-08-05 (confirmed via a real 404). Tried claude-opus-4.5 next but it wasn't present in the config-dir's bloom-data/models.json (KeyError, even though it exists in the package's own bundled default registry - the two can drift). claude-sonnet-4.5 is confirmed present in both, so using it for understanding/ideation/judgment as the safe choice.
+  max_tokens: 4000
+
+ideation:
+  model: "claude-sonnet-4.5"
+  num_scenarios: 20          # CORRECTED: real field name is num_scenarios, not total_evals (which silently does nothing since it isn't a real key - confirmed from real `bloom init` output). Small on purpose for the pilot - this is meant to widen prompt_bank.json's coverage, not replace it; raise later if the scenarios look good.
+  variation_dimensions: []   # CORRECTED: replaces the deprecated `diversity` field. Confirmed via a real run: leaving `diversity` in alongside `num_scenarios` makes Bloom treat the whole block as legacy format and silently fall back to its own internal default (num_scenarios=10, ignoring our value) instead of respecting num_scenarios. Do not add `diversity` back.
+  web_search: false          # ADDED: real field, missing before. Off by default - our scenarios are grounded in constitution.json, not live web content.
+  max_tokens: 80000
+
+rollout:
+  # We do NOT run Bloom's own rollout+judgment stages against our target model
+  # for this project (see README "Stage 2.5" - the activation-level
+  # susceptibility measurement that's the actual point of this study lives in
+  # eval_susceptibility.py, which needs local model access Bloom's LiteLLM-based
+  # rollout doesn't give us). These fields are only here because `bloom run`
+  # expects the full seed to be well-formed even if you stop after ideation
+  # with `bloom understanding` + `bloom ideation` run individually instead of
+  # `bloom run`. Point target/model at any small, cheap hosted models - their
+  # output is discarded by our workflow.
+  target: "claude-haiku-4.5"  # VERIFY against models.json; placeholder only, not used by import_bloom_scenarios.py
+  model: "claude-haiku-4.5"   # ADDED: real field, missing before - this is the evaluator/red-team model driving the rollout conversation, distinct from `target` (the model being evaluated). Same placeholder reasoning as target: unused by our workflow, just needs to be well-formed.
+  no_user_mode: false         # ADDED: real field, missing before. Default off - not relevant since we discard rollout output anyway.
+  modality: "conversation"
+  max_turns: 1
+  max_tokens: 2000
+  num_reps: 1
+
+judgment:
+  model: "claude-sonnet-4.5"
+  max_tokens: 6000
+  num_samples: 1
+  redaction_tags: null        # ADDED: real field, missing before. Default null (no redaction) - fine since judgment output is discarded by our workflow.
