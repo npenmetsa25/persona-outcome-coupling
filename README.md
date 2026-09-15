@@ -1,15 +1,3 @@
----
-license: cc-by-4.0
-tags:
-  - ai-safety
-  - interpretability
-  - self-preservation
-  - persona
-  - dpo
-  - constitutional-ai
-  - activation-steering
-language: en
----
 
 # When Personas Become Self-Relevant: Self-Representation Coupling and Self-Preservation in Language Models
 
